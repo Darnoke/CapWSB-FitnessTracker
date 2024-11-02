@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -61,5 +62,24 @@ class UserController {
                 .stream()
                 .map(userMapper::toIdEmailDto)
                 .toList();
+    }
+
+    @GetMapping("/older/{time}")
+    public List<UserDto> getUsersOlderThan(@PathVariable LocalDate time) {
+        return userService.getUsersOlderThan(time)
+                .stream()
+                .map(userMapper::toDto)
+                .toList();
+    }
+
+    @PutMapping("/{userId}")
+    public User updateUser(@PathVariable Long userId, @RequestBody UserDto userDto) {
+        try {
+            User mappedUser = userService.getUser(userId).orElseThrow();
+            User updatedUser = userMapper.toUpdateEntity(userDto, mappedUser);
+
+            return userService.updateUser(updatedUser); } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
