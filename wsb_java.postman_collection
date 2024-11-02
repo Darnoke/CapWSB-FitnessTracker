@@ -1,0 +1,222 @@
+{
+	"info": {
+		"_postman_id": "4447a8b0-b613-47c0-9ee8-d097f432ecf1",
+		"name": "wsb java",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25233533"
+	},
+	"item": [
+		{
+			"name": "users extended",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:2137/v1/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2137",
+					"path": [
+						"v1",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "users simple",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:2137/v1/users/simple",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2137",
+					"path": [
+						"v1",
+						"users",
+						"simple"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user get by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:2137/v1/users/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2137",
+					"path": [
+						"v1",
+						"users",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\": \"Ernest\",\r\n    \"lastName\": \"Kleszcz\",\r\n    \"birthdate\": \"1996-10-19\",\r\n    \"email\": \"Ernest.Kleszcz@domain.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:2137/v1/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2137",
+					"path": [
+						"v1",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete user",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:2137/v1/users/11",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2137",
+					"path": [
+						"v1",
+						"users",
+						"11"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update user",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\r\n        \"Id\": 11,\r\n        \"firstName\": \"Johnny\",\r\n        \"lastName\": \"Doe\",\r\n        \"birthdate\": \"1972-09-16\",\r\n        \"email\": \"John.Doe@domain.com\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:2137/v1/users/11",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2137",
+					"path": [
+						"v1",
+						"users",
+						"11"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get users by email",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:2137/v1/users/email?email=Emma.Johnson@domain.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2137",
+					"path": [
+						"v1",
+						"users",
+						"email"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "Emma.Johnson@domain.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "users older than [date]",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:2137/v1/users/older/1990-11-11",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2137",
+					"path": [
+						"v1",
+						"users",
+						"older",
+						"1990-11-11"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
