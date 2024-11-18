@@ -7,8 +7,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;
 
-
-
 public record TrainingDto(
         Long id,
         UserDto user,
@@ -17,4 +15,5 @@ public record TrainingDto(
         ActivityType activityType,
         double distance,
         double averageSpeed) {
+    public static UserMapper userMapper;
 }

@@ -21,7 +21,7 @@ public class UserMapper {
                 user.getLastName());
     }
 
-    User toEntity(UserDto userDto) {
+    public User toEntity(UserDto userDto) {
         return new User(
                 userDto.firstName(),
                 userDto.lastName(),
@@ -36,7 +36,7 @@ public class UserMapper {
                 user.getEmail());
     }
 
-    User toUpdateEntity(UserDto userDto, User user) {
+    public User toUpdateEntity(UserDto userDto, User user) {
         user.setFirstName(userDto.firstName() != null ? userDto.firstName() : user.getFirstName());
         user.setLastName(userDto.lastName() != null ? userDto.lastName() : user.getLastName());
         user.setBirthdate(userDto.birthdate() != null ? userDto.birthdate() : user.getBirthdate());
