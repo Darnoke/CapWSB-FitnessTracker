@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -28,6 +29,22 @@ public class TrainingController {
     @GetMapping("{userId}")
     public List<TrainingDto> getTrainingsByUserId(@PathVariable Long userId) {
         return trainingService.getTrainingsByUserId(userId)
+                .stream()
+                .map(trainingMapper::toDto)
+                .toList();
+    }
+
+    @GetMapping("/activity/{activityType}")
+    public List<TrainingDto> getTrainingsByActivityType(@PathVariable String activityType) {
+        return trainingService.getTrainingsByActivityType(activityType)
+                .stream()
+                .map(trainingMapper::toDto)
+                .toList();
+    }
+
+    @GetMapping("/trainings/older/{date}")
+    public List<TrainingDto> getTrainingsOlderThan(@PathVariable LocalDate time) {
+        return trainingService.getTrainingsOlderThan(time)
                 .stream()
                 .map(trainingMapper::toDto)
                 .toList();
