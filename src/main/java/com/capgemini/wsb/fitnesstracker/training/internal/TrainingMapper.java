@@ -5,7 +5,6 @@ import com.capgemini.wsb.fitnesstracker.training.api.TrainingDto;
 import com.capgemini.wsb.fitnesstracker.user.internal.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-
 @Component
 @RequiredArgsConstructor
 public class TrainingMapper {
