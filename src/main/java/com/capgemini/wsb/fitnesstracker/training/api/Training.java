@@ -5,9 +5,6 @@ import com.capgemini.wsb.fitnesstracker.user.api.User;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Date;
 @Entity
 @Table(name = "trainings")
@@ -15,6 +12,7 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
+
 public class Training {
 
     @Id
