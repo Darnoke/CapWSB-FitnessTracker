@@ -1,5 +1,8 @@
 package com.capgemini.wsb.fitnesstracker.training.api;
 
+import com.capgemini.wsb.fitnesstracker.user.api.User;
+import jakarta.validation.Valid;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +21,5 @@ public interface TrainingProvider {
 
     Training updateTraining(Training training);
 
-    Training createTraining(TrainingDto trainingDto);
-
-    Training createTraining(Training training);
+    Training createTraining(@Valid TrainingRequestDto trainingRequestDto, User user);
 }

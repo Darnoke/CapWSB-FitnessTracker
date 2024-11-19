@@ -2,23 +2,28 @@ package com.capgemini.wsb.fitnesstracker.training.internal;
 
 import com.capgemini.wsb.fitnesstracker.training.api.Training;
 import com.capgemini.wsb.fitnesstracker.training.api.TrainingDto;
+import com.capgemini.wsb.fitnesstracker.training.api.TrainingRequestDto;
+import com.capgemini.wsb.fitnesstracker.user.api.User;
+import com.capgemini.wsb.fitnesstracker.user.internal.UserServiceImpl;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.server.ResponseStatusException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
 @RestController
 @RequestMapping("/v1/trainings")
 @RequiredArgsConstructor
+
 public class TrainingController {
     private final TrainingServiceImpl trainingService;
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
     private final TrainingMapper trainingMapper;
+    private final UserServiceImpl userService;
 
     @GetMapping()
     public List<TrainingDto> getAllTrainings() {
@@ -36,12 +41,13 @@ public class TrainingController {
                 .toList();
     }
 
-    @GetMapping("/activity/{activityType}")
-    public List<TrainingDto> getTrainingsByActivityType(@PathVariable String activityType) {
-        return trainingService.getTrainingsByActivityType(activityType)
-                .stream()
+    @GetMapping("/activity/activityType")
+    public ResponseEntity<List<TrainingDto>> getTrainingsByActivityType(@RequestParam String activityType) {
+        List<Training> trainings = trainingService.getTrainingsByActivityType(activityType);
+        List<TrainingDto> response = trainings.stream()
                 .map(trainingMapper::toDto)
                 .toList();
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/finished/{dateString}")
@@ -54,10 +60,14 @@ public class TrainingController {
     }
 
     @PostMapping
-    public ResponseEntity<Training> addTraining(@RequestBody Training trainingDto) throws InterruptedException {
-        trainingService.createTraining(trainingMapper.toDto(trainingDto));
-        return new ResponseEntity<>(null, HttpStatus.CREATED);
+    public ResponseEntity<TrainingDto> addTraining(@RequestBody @Valid TrainingRequestDto trainingRequestDto) {
+        User user = userService.getUser(trainingRequestDto.getUserId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+        Training training = trainingService.createTraining(trainingRequestDto, user);
+        TrainingDto responseDto = trainingMapper.toDto(training);
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
     }
+
 
     @PutMapping("/{id}")
     public Training updateTraining(@PathVariable Long id, @RequestBody TrainingDto trainingDto) {

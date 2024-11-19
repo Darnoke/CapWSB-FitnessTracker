@@ -3,6 +3,8 @@ package com.capgemini.wsb.fitnesstracker.training.internal;
 import com.capgemini.wsb.fitnesstracker.training.api.Training;
 import com.capgemini.wsb.fitnesstracker.training.api.TrainingDto;
 import com.capgemini.wsb.fitnesstracker.training.api.TrainingProvider;
+import com.capgemini.wsb.fitnesstracker.training.api.TrainingRequestDto;
+import com.capgemini.wsb.fitnesstracker.user.api.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -49,12 +51,15 @@ public class TrainingServiceImpl implements TrainingProvider {
     }
 
     @Override
-    public Training createTraining(TrainingDto trainingDto) {
-        return null;
-    }
+    public Training createTraining(TrainingRequestDto requestDto, User user) {
+        Training training = Training.create();
+        training.setUser(user);
+        training.setStartTime(requestDto.getStartTime());
+        training.setEndTime(requestDto.getEndTime());
+        training.setActivityType(ActivityType.valueOf(requestDto.getActivityType()));
+        training.setDistance(requestDto.getDistance());
+        training.setAverageSpeed(requestDto.getAverageSpeed());
 
-    @Override
-    public Training createTraining(Training training) {
-        return null;
+        return trainingRepository.save(training);
     }
 }
