@@ -15,5 +15,5 @@ public record TrainingDto(
         ActivityType activityType,
         double distance,
         double averageSpeed) {
-    public static UserMapper userMapper;
+        public static UserMapper userMapper;
 }

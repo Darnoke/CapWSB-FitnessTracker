@@ -1,13 +1,15 @@
 package com.capgemini.wsb.fitnesstracker.training.internal;
 
+import com.capgemini.wsb.fitnesstracker.training.api.Training;
 import com.capgemini.wsb.fitnesstracker.training.api.TrainingDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -15,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TrainingController {
     private final TrainingServiceImpl trainingService;
-
+    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
     private final TrainingMapper trainingMapper;
 
     @GetMapping()
@@ -42,11 +44,28 @@ public class TrainingController {
                 .toList();
     }
 
-    @GetMapping("/trainings/older/{date}")
-    public List<TrainingDto> getTrainingsOlderThan(@PathVariable LocalDate time) {
-        return trainingService.getTrainingsOlderThan(time)
+    @GetMapping("/finished/{dateString}")
+    public List<TrainingDto> getTrainingsOlderThan(@PathVariable String dateString) throws ParseException {
+        Date date = formatter.parse(dateString);
+        return trainingService.getTrainingsOlderThan(date)
                 .stream()
                 .map(trainingMapper::toDto)
                 .toList();
+    }
+
+    @PostMapping
+    public ResponseEntity<Training> addTraining(@RequestBody Training trainingDto) throws InterruptedException {
+        trainingService.createTraining(trainingMapper.toDto(trainingDto));
+        return new ResponseEntity<>(null, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{id}")
+    public Training updateTraining(@PathVariable Long id, @RequestBody TrainingDto trainingDto) {
+        try {
+            Training mappedTraining = trainingService.getTraining(id).orElseThrow();
+            Training updatedTraining = trainingMapper.toUpdateEntity(trainingDto, mappedTraining);
+            return trainingService.updateTraining(updatedTraining); } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

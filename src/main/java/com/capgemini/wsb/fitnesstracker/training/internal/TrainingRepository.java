@@ -3,7 +3,10 @@ package com.capgemini.wsb.fitnesstracker.training.internal;
 import com.capgemini.wsb.fitnesstracker.training.api.Training;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 interface TrainingRepository extends JpaRepository<Training, Long> {
@@ -20,17 +23,14 @@ interface TrainingRepository extends JpaRepository<Training, Long> {
         return findAll().stream()
                 .filter(training -> {
                     assert training.getActivityType() != null;
-                    return training.getActivityType().equals(activityType);
+                    return training.getActivityType().toString().equals(activityType);
                 })
                 .toList();
     }
 
-    default List<Training> findByDateBefore(LocalDate date) {
+    default List<Training> findByDateBefore(Date time) {
         return findAll().stream()
-                .filter(training -> {
-                    assert training.getDate() != null;
-                    return training.getDate().isBefore(date);
-                })
+                .filter(training -> training.getEndTime().after(time))
                 .toList();
     }
 }

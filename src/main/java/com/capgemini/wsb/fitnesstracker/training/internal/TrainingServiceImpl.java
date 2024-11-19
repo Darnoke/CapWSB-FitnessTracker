@@ -1,12 +1,14 @@
 package com.capgemini.wsb.fitnesstracker.training.internal;
 
 import com.capgemini.wsb.fitnesstracker.training.api.Training;
+import com.capgemini.wsb.fitnesstracker.training.api.TrainingDto;
 import com.capgemini.wsb.fitnesstracker.training.api.TrainingProvider;
+import com.capgemini.wsb.fitnesstracker.user.internal.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +18,8 @@ import java.util.Optional;
 public class TrainingServiceImpl implements TrainingProvider {
 
     private final TrainingRepository trainingRepository;
+    private final UserServiceImpl userService;
+    private final TrainingMapper trainingMapper;
 
     @Override
     public Optional<Training> getTraining(final Long trainingId) {
@@ -36,7 +40,7 @@ public class TrainingServiceImpl implements TrainingProvider {
     public List<Training> getTrainingsByActivityType(final String activityType) { return trainingRepository.findByActivityType(activityType); }
 
     @Override
-    public List<Training> getTrainingsOlderThan(LocalDate date) { return trainingRepository.findByDateBefore(date); }
+    public List<Training> getTrainingsOlderThan(Date time) { return trainingRepository.findByDateBefore(time); }
 
     @Override
     public Training updateTraining(final Training training) {
@@ -45,5 +49,15 @@ public class TrainingServiceImpl implements TrainingProvider {
             throw new IllegalArgumentException("Training has no DB ID, create is not permitted!");
         }
         return trainingRepository.save(training);
+    }
+
+    @Override
+    public Training createTraining(TrainingDto trainingDto) {
+        return null;
+    }
+
+    @Override
+    public Training createTraining(Training training) {
+        return null;
     }
 }

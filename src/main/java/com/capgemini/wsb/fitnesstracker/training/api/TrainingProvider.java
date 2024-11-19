@@ -1,6 +1,6 @@
 package com.capgemini.wsb.fitnesstracker.training.api;
 
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,7 +14,11 @@ public interface TrainingProvider {
 
     List<Training> getTrainingsByActivityType(final String activityType);
 
-    List<Training> getTrainingsOlderThan(LocalDate date);
+    List<Training> getTrainingsOlderThan(Date date);
 
     Training updateTraining(Training training);
+
+    Training createTraining(TrainingDto trainingDto);
+
+    Training createTraining(Training training);
 }
